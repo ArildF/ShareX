@@ -98,7 +98,7 @@ namespace ShareX
 
         private static void StartTasks()
         {
-            int workingTasksCount = Tasks.Count(x => x.IsWorking);
+            int uploadTasksCount = Tasks.Count(x => x.Info.IsUploadJob && x.IsWorking);
             WorkerTask[] inQueueTasks = Tasks.Where(x => x.Status == TaskStatus.InQueue).ToArray();
 
             if (inQueueTasks.Length > 0)
@@ -111,7 +111,7 @@ namespace ShareX
                 }
                 else
                 {
-                    len = (Program.Settings.UploadLimit - workingTasksCount).Clamp(0, inQueueTasks.Length);
+                    len = (Program.Settings.UploadLimit - uploadTasksCount).Clamp(0, inQueueTasks.Length);
                 }
 
                 for (int i = 0; i < len; i++)
